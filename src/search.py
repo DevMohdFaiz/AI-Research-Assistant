@@ -7,6 +7,7 @@ from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from typing import List, Dict
+from concurrent.futures import ThreadPoolExecutor
 from config import TAVILY_API_KEY, GROQ_API_KEY
 
 
@@ -55,7 +56,7 @@ class SearchAgent:
         return sources
         
     
-    def search(self, topic:str):
+    def search(self, topic:str, urls_only=False):
         """Search the web for sources using various queries"""
         topics  = self._generate_diverse_topics(topic)
         all_sources = {"topic": [], "sources": []}
@@ -65,15 +66,41 @@ class SearchAgent:
                 self.search_topic(topic)
             )
 
-
         unique_urls = set()
         for res in all_sources["sources"]:
             for source in res:
                 url = source["url"]
                 if url not in unique_urls:
                     unique_urls.add(url)
+        unique_urls = [url for url in unique_urls]
+        if urls_only:
+            return unique_urls
+        else:
+            return all_sources, unique_urls
+        
+    def parallel_search(self, topic:str, urls_only=False):
+        """Parallel search to reduce search time"""
+        topics  = self._generate_diverse_topics(topic)
+        all_sources = {"topic": topics, "sources": []}
 
-        return all_sources, unique_urls 
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            results = executor.map(self.search_topic, topics)
+
+        for source in results:
+            all_sources['sources'].extend(source)
+        
+        unique_urls = set()
+        search_urls = []
+        for res in all_sources["sources"]:
+            url = res["url"]
+            if url not in unique_urls:
+                unique_urls.add(url)
+                search_urls.append(url)
+
+        if urls_only:
+            return search_urls
+        else:
+            return all_sources, search_urls
     
 
     def _generate_diverse_topics(self, topic:str, num_queries:int =5)-> List:
