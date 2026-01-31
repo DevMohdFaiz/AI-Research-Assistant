@@ -47,7 +47,7 @@ class SearchAgent:
                         "type": "wikipedia",
                         "url": f"https://en.wikipedia.org/wiki/{query.replace(' ', '_')}",
                         "title": query,
-                        "content": wiki_response[:2000],
+                        "content": wiki_response[:2500],
                         "score": 0.8
                 })
             except Exception as e:
