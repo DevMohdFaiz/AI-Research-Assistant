@@ -101,3 +101,4 @@ class AnalyzerAgent:
         for _, analysis in enumerate(key_findings):
             parsed_findings += f"<h3>Title: {analysis.get('title')}</h3>"
             parsed_findings += f"<h4>Key Findings</h4> {analysis.get('key_points')}<hr>"
+        return parsed_findings
