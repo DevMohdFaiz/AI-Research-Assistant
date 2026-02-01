@@ -13,30 +13,52 @@ class AnalyzerAgent:
 
     def _analyze_source(self, source, research_questions):
         """Read and analyze a single source"""
-        prompt = ChatPromptTemplate.from_template("""
-            You are an expert Research Assistant with great skill at extracting relevant information from given sources
-            Analyze this source and extract key information relevant to the research questions 
+        # prompt = ChatPromptTemplate.from_template("""
+        #     You are an expert Research Assistant with great skill at extracting relevant information from given sources
+        #     Analyze this source and extract key information relevant to the research questions 
             
-            **Source**: {title}
+        #     **Title**: {title}
                                                     
-            Content:
+        #     **Source**:
+        #     {content}
+                                                    
+        #     **Research Questions**
+        #     {research_questions}
+                
+        #     Extract:
+        #     1. Main points relevant to the research questions
+        #     2. Key facts, statistics, or quotes
+        #     3. Important insights or arguments
+
+        #     Be concise. Focus only on information relevant to the research questions.
+
+        #     Format as:
+        #     - Point 1
+        #     - Point 2
+        #     - Point 3
+        #     (etc.)        
+
+        #     CRITICAL INSTRUCTION:
+        #     Be extremely concise. Do not ramble. If you write more than 1,500 words, the system will reject your answer. Stop immediately once you have covered the key points.                                    
+        # """)
+
+        prompt = ChatPromptTemplate.from_template("""
+            Role: Academic Research Assistant.
+            Task: Analyze the provided source text and extract data relevant to the Research Questions.
+            Output Format: Markdown bullet points.
+            Constraints:
+            - Be strictly objective.
+            - Do not use first-person.
+            - Focus ONLY on facts, stats, and arguments.
+            - Ignore irrelevant text (ads, menus).
+                                                  
+            **Title**: {title}
+                                                    
+            **Source**:
             {content}
                                                     
             **Research Questions**
             {research_questions}
-                
-            Extract:
-            1. Main points relevant to the research questions
-            2. Key facts, statistics, or quotes
-            3. Important insights or arguments
-
-            Be concise. Focus only on information relevant to the research questions.
-
-            Format as:
-            - Point 1
-            - Point 2
-            - Point 3
-            (etc.)                                                
         """)
 
         content = source.get('content')[:]
@@ -95,10 +117,18 @@ class AnalyzerAgent:
         parsed_findings = self._parse_key_findings(key_findings)
         return key_findings, parsed_findings
     
+
     def _parse_key_findings(self, key_findings):
         """Obtain the key findings from our sources and put them in a llm-friendly format"""
         parsed_findings = ""
         for _, analysis in enumerate(key_findings):
-            parsed_findings += f"<h3>Title: {analysis.get('title')}</h3>"
-            parsed_findings += f"<h4>Key Findings</h4> {analysis.get('key_points')}<hr>"
+            parsed_findings += f"## {analysis.get('title')}\n retrieved from {analysis.get('url')}\n \n{analysis.get('key_points')}\n"
         return parsed_findings
+    
+    # def _parse_key_findings(self, key_findings):
+    #     """Obtain the key findings from our sources and put them in a llm-friendly format"""
+    #     parsed_findings = ""
+    #     for _, analysis in enumerate(key_findings):
+    #         parsed_findings += f"<h3>Title: {analysis.get('title')}</h3>"
+    #         parsed_findings += f"<h4>Key Findings</h4> {analysis.get('key_points')}<hr>"
+    #     return parsed_findings
