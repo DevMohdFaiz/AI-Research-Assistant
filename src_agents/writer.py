@@ -190,14 +190,14 @@ class WriterAgent:
         return error_sections
     
 
-    def write_paper(self, topic, plan, key_findings):
+    def write_paper(self, topic, plan, key_findings, parsed_key_findings):
         """Write the complete paper"""
         full_paper = {}
         key_concepts = plan["key_concepts"]
         paper_outline = plan["paper_outline"]
 
         print(f"Writing the introduction...")
-        introduction = self.write_introduction(topic, key_concepts, key_findings)
+        introduction = self.write_introduction(topic, key_concepts, paper_outline)
         full_paper['introduction'] = introduction 
 
         print("Sleeping for 65 secs to respect rate limit")
@@ -205,7 +205,7 @@ class WriterAgent:
             time.sleep(1)
 
         print("Writing the Body of the paper...")
-        paper_body = self.write_body(key_findings, key_concepts, paper_outline)
+        paper_body = self.write_body(parsed_key_findings, key_concepts, paper_outline)
         full_paper['body'] = paper_body
 
         print("Sleeping for 65 secs to respect rate limit")
@@ -214,7 +214,7 @@ class WriterAgent:
 
         print("Writing the conclusion...\n")
         paper_summary = self.get_paper_summary(full_paper)
-        conclusion = self.write_conclusion(topic, paper_summary, paper_outline)
+        conclusion = self.write_conclusion(topic, paper_summary, key_concepts)
         full_paper['conclusion'] = conclusion
 
         print("Writing references\n")
