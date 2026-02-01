@@ -91,17 +91,3 @@ def create_workflow():
     workflow.add_edge("format", END)
     
     return workflow.compile()
-
-topic = "How the Chinese Communist Party (CCP) has managed to build a world-class country"
-initial_state = {
-    "topic": topic,
-    "plan": {},
-    "research_questions": [],
-    "paper_outline": [],
-    "key_concepts": [],
-    "search_results": [],
-    "key_findings": [],
-    "parsed_key_findings": [],
-    "output_path": "",
-    "messages": []
-}
