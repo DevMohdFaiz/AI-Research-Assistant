@@ -22,7 +22,10 @@ class DocumentGenerator:
         """
         
         if output_path is None:
-            output_path = f"research_docs/{topic.replace(' ', '_')}_{datetime.now().strftime('%d_%m_%Y_%H_%M_%S')}.docx"
+            if os.path.exists("research_docs"):
+                output_path = f"research_docs/{topic.replace(' ', '_')}_{datetime.now().strftime('%d_%m_%Y_%H_%M_%S')}.docx"
+            else:
+                output_path = f"{topic.replace(' ', '_')}_{datetime.now().strftime('%d_%m_%Y_%H_%M_%S')}.docx"
         
         # Create document
         doc = Document()
