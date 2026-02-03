@@ -1,5 +1,6 @@
-import streamlit as st
 import time
+import sys
+import streamlit as st
 from pathlib import Path
 from core.workflow import create_workflow
 from src_agents.format_doc import DocumentGenerator
@@ -112,6 +113,7 @@ with col1:
 
 # Research button
 if st.button("Start Research", disabled=st.session_state.research_running or not topic):
+    st.write("hello")
     if topic:
         st.session_state.research_running = True
         st.session_state.result = None
@@ -119,25 +121,35 @@ if st.button("Start Research", disabled=st.session_state.research_running or not
 
 # Progress section
 if st.session_state.research_running:
-    st.markdown("---")
-    st.subheader("Research in Progress")
+#     st.markdown("---")
+#     st.subheader("Research in Progress")
     
-    progress_container = st.container()
-    status_container = st.container()
+#     progress_container = st.container()
+#     status_container = st.container()
     
-    with progress_container:
-        progress_bar = st.progress(0) 
-        status_text = st.empty()
+#     with progress_container:
+#         progress_bar = st.progress(0) 
+#         status_text = st.empty()
     
-    with status_container:
-        stage_display = st.empty()
-    
-    try:
-        with st.status("Running..."):
+#     with status_container:
+#         stage_display = st.empty()
+
+
+    class Logger:
+        def write(self, text):
+            if text.strip():
+                st.write(text.strip())
+        def flush(self):
+            pass
+
+    old_stdout = sys.stdout
+    sys.stdout = Logger()
+   
+    with st.status("Running research...", expanded=True) as status:
+        try:
             start_time = time.time()
             workflow = create_workflow()
-            
-            # Initial state
+
             initial_state = {
                 "topic": topic,
                 "plan": {},
@@ -152,10 +164,12 @@ if st.session_state.research_running:
             }
             
             result = workflow.invoke(initial_state)
-            status_text.text("Research Complete!")
+            # status_text.text("Research Complete!")
             st.write(f"Time taken: {((time.time() - start_time) / 60):.2f} mins")
 
- 
+            sys.stdout = old_stdout
+            status.update(label= "Research Complete!", state="complete")
+
             st.session_state.result = {
                 'path': result["output_path"],
                 'paper': result["full_paper"],
@@ -166,9 +180,11 @@ if st.session_state.research_running:
             st.session_state.research_running = False
             st.rerun()
         
-    except Exception as e:
-        st.error(f"Error during research: {str(e)}")
-        st.session_state.research_running = False
+        except Exception as e:
+            sys.stdout = old_stdout
+            status.update(label="Error", state="error")
+            st.error(f"Error during research: {str(e)}")
+            st.session_state.research_running = False
 
 
 if st.session_state.result and not st.session_state.research_running:
@@ -184,7 +200,7 @@ if st.session_state.result and not st.session_state.research_running:
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document" 
         )
     
-    # Tabs for different views
+   
     tab1, tab2, tab3, tab4 = st.tabs(["Preview", "Sources", "Findings", "Outline"])
     
     with tab1:
