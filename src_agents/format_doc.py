@@ -1,9 +1,9 @@
+import os
 from docx import Document
 from docx.shared import Inches, Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from typing import Dict
 from datetime import datetime
-import os
 
 class DocumentGenerator:
     """Generate professional Word documents."""

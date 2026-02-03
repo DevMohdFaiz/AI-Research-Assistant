@@ -175,7 +175,8 @@ if st.session_state.research_running:
                 'paper': result["full_paper"],
                 'sources': result["search_results"],
                 'findings': result["key_findings"],
-                'outline': result["paper_outline"]
+                'outline': result["paper_outline"],
+                'time_taken': time.time() - start_time
             }
             st.session_state.research_running = False
             st.rerun()
@@ -189,7 +190,7 @@ if st.session_state.research_running:
 
 if st.session_state.result and not st.session_state.research_running:
     st.markdown("---")
-    st.success("Research Complete!")
+    st.success(f"Research Complete! | Time taken: {((st.session_state.result['time_taken']) / 60):.2f} mins")
     
     # Download button
     with open(st.session_state.result['path'], 'rb') as f:

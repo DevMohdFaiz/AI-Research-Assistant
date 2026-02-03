@@ -9,7 +9,7 @@ class AnalyzerAgent:
     """Analyze sources"""
 
     def __init__(self, model="openai/gpt-oss-120b"):
-        self.llm = ChatGroq(api_key=GROQ_API_KEY_2, model=model, temperature=0.1)
+        self.llm = ChatGroq(api_key=GROQ_API_KEY, model=model, temperature=0.1)
 
     def _analyze_source(self, source, research_questions):
         """Read and analyze a single source"""

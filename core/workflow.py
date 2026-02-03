@@ -68,7 +68,7 @@ def create_workflow():
             state["research_questions"]
         )
         
-        print(f"Extracted {len(parsed_key_findings)} key findings from sources")
+        print(f"Extracted {len(parsed_key_findings):,} key findings from sources")
         return {
             "key_findings": key_findings,
             "parsed_key_findings": parsed_key_findings,

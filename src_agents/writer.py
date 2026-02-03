@@ -163,7 +163,7 @@ class WriterAgent:
             Compile the references list now:
         """)
 
-        llm = ChatGroq(api_key= GROQ_API_KEY_2, model="llama-3.3-70b-versatile", temperature=0.1)
+        llm = ChatGroq(api_key= GROQ_API_KEY, model="llama-3.3-70b-versatile", temperature=0.1)
         chain = references_prompt | llm
 
         try:
@@ -273,7 +273,7 @@ class WriterAgent:
         print(f"Sending system context to Groq cache\n")
 
         try:
-            llm = ChatGroq(api_key=GROQ_API_KEY_2, model="openai/gpt-oss-120b", temperature=0.4, max_retries=0)
+            llm = ChatGroq(api_key=GROQ_API_KEY, model="openai/gpt-oss-120b", temperature=0.4, max_retries=0)
             llm.invoke(
                 [
                     SystemMessage(content=system_content),
