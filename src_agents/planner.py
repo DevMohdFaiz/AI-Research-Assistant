@@ -5,6 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from config import GROQ_API_KEY, GROQ_API_KEY_2
 
 class PlannerAgent:
+    """Create a comprehensive plan for us to conduct the research"""
     def __init__(self, model="openai/gpt-oss-120b"):
         self.llm = ChatGroq(api_key=GROQ_API_KEY, temperature=0.2, model=model, timeout=5)
         self.parser = JsonOutputParser()
@@ -36,7 +37,7 @@ class PlannerAgent:
 
         try:
             response = chain.invoke(topic)
-            return response 
+            return response
 
         except Exception as e:
             print(f"Planner Error-> {e}")
@@ -48,7 +49,7 @@ class PlannerAgent:
                             f"What are current developments in {topic}?",
                             f"What are future implications of {topic}?"
                         ],
-                        "outline": [
+                        "paper_outline": [
                             "Introduction",
                             "Background and Context",
                             "Main Analysis",
@@ -57,10 +58,8 @@ class PlannerAgent:
                             "Conclusion"
                         ],
                         "key_concepts": [topic],
-                        "search_queries": [
-                            topic,
-                            f"{topic} overview",
-                            f"{topic} recent developments"
+                        "search_types": [
+                            "wikipedia", "web", "journals"
                         ]
                     }
 

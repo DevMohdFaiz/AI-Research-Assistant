@@ -16,7 +16,7 @@ class ResearchState(TypedDict):
     full_paper: str
     output_path: str
 
-    messages: Annotated[List[BaseMessage], add_messages]
+    # messages: Annotated[List[BaseMessage], add_messages]
 
 
 def create_workflow():
@@ -30,11 +30,12 @@ def create_workflow():
 
     def plan_node(state: ResearchState):
         """Create the research plan"""
+        print("Creating research plan...")
         plan = planner_agent.create_plan(
             state["topic"]
         )
 
-        print(f"Created plan\n")
+        print(f"Created research plan\n")
         print(f"Research Questions: {plan['research_questions']}")
         print(f"Paper outline: {plan['paper_outline']}")
          
@@ -49,7 +50,7 @@ def create_workflow():
     def search_node(state: ResearchState):
         """Search for sources"""
         print("Searching for sources...")
-        search_results = search_agent.fast_search(
+        search_results = search_agent.search(
             state["topic"],
             sort_results=True
         )
@@ -61,6 +62,7 @@ def create_workflow():
     
     def analyze_node(state: ResearchState):
         """Analyze the sources and extract key points"""
+        print("Analyzing sources...")
         key_findings, parsed_key_findings = analyzer_agent.analyze_sources(
             state['search_results'][:12], #only use the first 12 ranked sources
             state["research_questions"]
@@ -89,6 +91,7 @@ def create_workflow():
     
     def format_node(state: ResearchState):
         """Format and save the paper as a docx file"""
+        print("Saving paper...")
         output_path = doc_formatter.generate_docx(
             state["full_paper"],
             state["topic"]

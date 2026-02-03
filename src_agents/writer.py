@@ -157,7 +157,7 @@ class WriterAgent:
                 * If no author is listed, use: *Title of page. (Year, Month Day). Site Name. URL*
                 * If no date is listed, use: *(n.d.)*.
             4.  **No Hallucinations:** Do not invent authors or dates. If metadata is missing in the input, use reasonable defaults (e.g., "n.d." for no date) based strictly on the provided info.
-            5.  **Clean Output:** Output **only** the references list. Do not add introductory text like "Here are your references."
+            5.  **Clean Output:** Output **only** the references list. Do not add introductory text like "Here are your references or "References""
 
             ### GENERATE
             Compile the references list now:
@@ -239,6 +239,7 @@ class WriterAgent:
             2.  **NO INTRO/OUTRO:** Do NOT write the Introduction or Conclusion sections. Start immediately with the first body section from the Outline.
             3.  **NO SURFACE-LEVEL SUMMARIES:** Do not just list facts. You must explain *why* they matter, the *causal mechanisms* behind them, and their *implications*.
             4.  **NO HALLUCINATION:** Base all arguments strictly on the provided Key Findings.
+            5.  **CLEAN OUTPUT**: Do not add any extra introductory text like "Body" or "Here is the body of the paper"
 
             ### DEPTH & STYLE REQUIREMENTS
             1.  **Maximize Depth:** For every claim you make, provide the evidence (citation) and the implication.
