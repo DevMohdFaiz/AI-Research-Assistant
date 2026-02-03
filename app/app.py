@@ -1,7 +1,6 @@
 import streamlit as st
 import time
 from pathlib import Path
-
 from core.workflow import create_workflow
 from src_agents.format_doc import DocumentGenerator
 
@@ -13,7 +12,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
 st.markdown("""
     <style>
     .main {
@@ -79,8 +77,7 @@ with st.sidebar:
     st.markdown("### How it works")
     st.markdown("""
     1. **Plan**: Generates research questions & outline
-    2. **Search**: Finds relevant sources from the web
-    3. **Scrape**: Extracts full content
+    2. **Search**: Finds and extracts relevant sources from the web
     4. **Analyze**: Identifies key findings
     5. **Write**: Creates structured paper
     6. **Format**: Exports professional document to .docx file
@@ -136,35 +133,38 @@ if st.session_state.research_running:
         stage_display = st.empty()
     
     try:
-        workflow = create_workflow()
-        
-        # Initial state
-        initial_state = {
-            "topic": topic,
-            "plan": {},
-            "research_questions": [],
-            "paper_outline": [],
-            "key_concepts": [],
-            "search_results": [],
-            "key_findings": [],
-            "full_paper": "",
-            "output_path": "",
-            # "messages": []
-        }
-        
-        result = workflow.invoke(initial_state)
-        status_text.text("Research Complete!")
-        
-        # Store result
-        st.session_state.result = {
-            'path': result["output_path"],
-            'paper': result["full_paper"],
-            'sources': result["search_results"],
-            'findings': result["key_findings"],
-            'outline': result["paper_outline"]
-        }
-        st.session_state.research_running = False
-        st.rerun()
+        with st.status("Running..."):
+            start_time = time.time()
+            workflow = create_workflow()
+            
+            # Initial state
+            initial_state = {
+                "topic": topic,
+                "plan": {},
+                "research_questions": [],
+                "paper_outline": [],
+                "key_concepts": [],
+                "search_results": [],
+                "key_findings": [],
+                "full_paper": "",
+                "output_path": "",
+                # "messages": []
+            }
+            
+            result = workflow.invoke(initial_state)
+            status_text.text("Research Complete!")
+            st.write(f"Time taken: {((time.time() - start_time) / 60):.2f} mins")
+
+ 
+            st.session_state.result = {
+                'path': result["output_path"],
+                'paper': result["full_paper"],
+                'sources': result["search_results"],
+                'findings': result["key_findings"],
+                'outline': result["paper_outline"]
+            }
+            st.session_state.research_running = False
+            st.rerun()
         
     except Exception as e:
         st.error(f"Error during research: {str(e)}")
