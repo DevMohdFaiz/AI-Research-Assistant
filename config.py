@@ -13,7 +13,7 @@ def _get_groq_api_key():
             if GROQ_API_KEY is None:
                 GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
         except Exception as e:
-            raise KeyError("GROQ_API_KEY not set in the environment! -> {e}")
+            raise KeyError(f"GROQ_API_KEY not set in the environment! -> {e}")
     return GROQ_API_KEY
     
 def _get_groq_api_key_2():
@@ -26,7 +26,7 @@ def _get_groq_api_key_2():
             if GROQ_API_KEY_2 is None:
                 GROQ_API_KEY_2 = st.secrets["GROQ_API_KEY_2"]
         except Exception as e:
-            raise KeyError("GROQ_API_KEY_2 not set in the environment! -> {e}")
+            raise KeyError(f"GROQ_API_KEY_2 not set in the environment! -> {e}")
     return GROQ_API_KEY_2
 
 def _get_tavily_api_key():
