@@ -1,5 +1,8 @@
-import time
 import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+import time
 import streamlit as st
 from pathlib import Path
 from core.workflow import create_workflow
