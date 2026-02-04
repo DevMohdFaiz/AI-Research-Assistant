@@ -20,6 +20,7 @@ class ResearchState(TypedDict):
 
 
 def create_workflow():
+    """Create the ressearch workflow"""
     planner_agent = planner.PlannerAgent(model="llama-3.3-70b-versatile")
     search_agent = searcher.SearchAgent()
     analyzer_agent = analyzer.AnalyzerAgent()

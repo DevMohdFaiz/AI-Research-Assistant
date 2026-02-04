@@ -4,6 +4,7 @@ from dotenv import get_key
 
 
 def _get_groq_api_key():
+    """Get the groq api key from .env"""
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
     if GROQ_API_KEY is None:
         try:
@@ -17,6 +18,7 @@ def _get_groq_api_key():
     return GROQ_API_KEY
     
 def _get_groq_api_key_2():
+    """Get the groq api key from .env"""
     GROQ_API_KEY_2 = os.getenv("GROQ_API_KEY_2")
     if GROQ_API_KEY_2 is None:
         try:
@@ -30,6 +32,7 @@ def _get_groq_api_key_2():
     return GROQ_API_KEY_2
 
 def _get_tavily_api_key():
+    """Get the tavily api key from .env"""
     TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
     if TAVILY_API_KEY is None:
         try:
