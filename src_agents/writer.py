@@ -10,7 +10,7 @@ from config import GROQ_API_KEY_2, GROQ_API_KEY
 
 
 class WriterAgent:
-    """Write the full paper section-wise""" 
+    """Write the full research paper""" 
 
     def __init__(self, model="openai/gpt-oss-120b"):
         self.llm = ChatGroq(api_key= GROQ_API_KEY, model=model, temperature=0.1)

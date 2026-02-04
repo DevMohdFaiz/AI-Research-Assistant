@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from config import GROQ_API_KEY, GROQ_API_KEY_2
 
 class AnalyzerAgent:
-    """Analyze sources"""
+    """Analyze sources and extract key findings"""
 
     def __init__(self, model="openai/gpt-oss-120b"):
         self.llm = ChatGroq(api_key=GROQ_API_KEY, model=model, temperature=0.1)
