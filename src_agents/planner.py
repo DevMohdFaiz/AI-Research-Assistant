@@ -1,7 +1,7 @@
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
-from config import GROQ_API_KEY, GROQ_API_KEY_2
+from config import GROQ_API_KEY, GROQ_API_KEY_2 
 
 class PlannerAgent:
     """Create a comprehensive plan for us to conduct the research"""
@@ -50,7 +50,7 @@ class PlannerAgent:
                         ],
                         "paper_outline": [
                             "Introduction",
-                            "Background and Context",
+                            "Background of stufy",
                             "Main Analysis",
                             "Current State",
                             "Future Directions",
@@ -58,7 +58,7 @@ class PlannerAgent:
                         ],
                         "key_concepts": [topic],
                         "search_types": [
-                            "wikipedia", "web", "journals"
+                            "wikipedia", "internet search", "journals", "pdfs"
                         ]
                     }
 
