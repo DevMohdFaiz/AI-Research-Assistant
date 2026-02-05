@@ -162,8 +162,7 @@ if st.session_state.research_running:
                 "search_results": [],
                 "key_findings": [],
                 "full_paper": "",
-                "output_path": "",
-                # "messages": []
+                "output_path": ""
             }
             
             result = workflow.invoke(initial_state)

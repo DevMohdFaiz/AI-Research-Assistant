@@ -1,7 +1,6 @@
 from langgraph.graph import StateGraph, END, add_messages
 from src_agents import format_doc, planner, content_extractor, scraper, analyzer, searcher, writer
-from langchain_core.messages import BaseMessage
-from typing import List, Dict, Annotated, TypedDict
+from typing import List, Dict, TypedDict
 
 class ResearchState(TypedDict):
     """Overall state for the research workflow"""
@@ -15,8 +14,6 @@ class ResearchState(TypedDict):
     parsed_key_findings: List
     full_paper: str
     output_path: str
-
-    # messages: Annotated[List[BaseMessage], add_messages]
 
 
 def create_workflow():
@@ -83,7 +80,6 @@ def create_workflow():
             state["key_findings"],
             state["parsed_key_findings"]
         )
-        # full_paper = writer_agent.write_paper(topic, plan, key_findings, parsed_key_findings)
 
         print(f"Full paper written!")
         return {
