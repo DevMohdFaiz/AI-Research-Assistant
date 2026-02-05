@@ -6,7 +6,7 @@ from typing import Dict
 from datetime import datetime
 
 class DocumentGenerator:
-    """Generate professional Word documents."""
+    """Generate professional Word documents"""
     
     def generate_docx(self, content: str, topic: str, output_path: str = None) -> str:
         """
@@ -15,7 +15,7 @@ class DocumentGenerator:
         Args:
             content: Markdown content
             topic: Research topic (for title)
-            output_path: Where to save (optional)
+            output_path: Where to save the file
             
         Returns:
             Path to generated document
