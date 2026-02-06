@@ -166,7 +166,6 @@ if st.session_state.research_running:
             }
             
             result = workflow.invoke(initial_state)
-            # status_text.text("Research Complete!")
             st.write(f"Time taken: {((time.time() - start_time) / 60):.2f} mins")
 
             sys.stdout = old_stdout
