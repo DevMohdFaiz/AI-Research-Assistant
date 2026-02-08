@@ -84,7 +84,6 @@ class AnalyzerAgent:
                     key_findings.append(finding)
             except Exception as e:
                 print(f"error {e}")
-                # return None
 
         parsed_findings = self._parse_key_findings(key_findings)
         return key_findings, parsed_findings
