@@ -69,11 +69,9 @@ class DocumentGenerator:
             elif line.startswith('### '):
                 doc.add_heading(line[4:], 3)
             
-            # Regular paragraph
             else:
                 doc.add_paragraph(line)
         
-        # Save
         doc.save(output_path)
         
         print(f"  Saved Word document: {output_path}")
