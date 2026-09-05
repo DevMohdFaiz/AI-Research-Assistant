@@ -12,13 +12,13 @@ from config import TAVILY_API_KEY, GROQ_API_KEY, GROQ_API_KEY_2
 
 class SearchAgent:
     "Make the web for sources to conduct the research"
-
+    
     def __init__(self):
         self.tailvy_search = TavilySearch(
             tavily_api_key=TAVILY_API_KEY,
             search_depth="advanced",
             max_resuslts=5,
-            include_answer=True
+            include_answer=True 
         )
         self.wiki_search = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper(top_k_results=5))
 
@@ -53,8 +53,8 @@ class SearchAgent:
                         "type": "wikipedia",
                         "url": f"https://en.wikipedia.org/wiki/{query.replace(' ', '_')}",
                         "title": query,
-                        "content": wiki_response[:2500],
-                        "score": 0.8
+                        "content": wiki_response[:2500], #limit to thr first 2500 characters 
+                        "score": 0.8 
                 })
             except Exception as e:
                 print(f"Wikipedia search error {e}")
@@ -93,7 +93,7 @@ class SearchAgent:
         class DiverseTopics(BaseModel):
             queries: List[str] = Field(description="A list of diverse topics generated")
 
-        llm = ChatGroq(api_key=GROQ_API_KEY, temperature=0.4, model="llama-3.1-8b-instant").with_structured_output(DiverseTopics)
+        llm = ChatGroq(api_key=GROQ_API_KEY, temperature=0.4, model="openai/gpt-oss-20b").with_structured_output(DiverseTopics)
         prompt = ChatPromptTemplate.from_template("""
             You are an expert AI assistant at generating diverse topics from a given research topic
             Generate {num_queries} diverse search queries to research this topic comprehensively:
