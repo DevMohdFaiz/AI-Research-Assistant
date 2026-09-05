@@ -238,7 +238,7 @@ if st.session_state.result and not st.session_state.research_running:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: gray; padding: 2rem;'>
-    <p>Generate comprehensive research papers automatically</p>
+    <p>Generate research papers automatically</p>
     <p>Copyright 2026</p>
 </div>
 """, unsafe_allow_html=True)
