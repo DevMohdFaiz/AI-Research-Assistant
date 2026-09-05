@@ -74,7 +74,8 @@ class AnalyzerAgent:
         with ThreadPoolExecutor(max_workers=3) as executor:
             future_to_source = {
                 executor.submit(
-                    self._analyze_source, source, research_questions): source for source in sources
+                    self._analyze_source, source, research_questions
+                    ): source for source in sources
             }
 
         for _, future in enumerate(as_completed(future_to_source), 1):
