@@ -18,7 +18,7 @@ class ResearchState(TypedDict):
 
 def create_workflow():
     """Create the ressearch workflow"""
-    planner_agent = planner.PlannerAgent(model="llama-3.3-70b-versatile")
+    planner_agent = planner.PlannerAgent(model="openai/gpt-oss-20b")
     search_agent = searcher.SearchAgent()
     analyzer_agent = analyzer.AnalyzerAgent()
     writer_agent = writer.WriterAgent()
